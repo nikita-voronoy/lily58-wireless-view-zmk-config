@@ -16,28 +16,24 @@ RIGHT_UF2 := $(BUILD_RIGHT)/zephyr/zmk.uf2
 
 all: left right
 
-# Local turbo behavior module (infinite press while held)
-EXTRA_MODULES := /app/modules/zmk-behavior-turbo
-BUILD_FLAGS = -DZMK_CONFIG=/app/config -DZEPHYR_EXTRA_MODULES=$(EXTRA_MODULES)
-
 left:
 	@echo "Building left half..."
-	$(DOCKER_RUN) bash -c "west zephyr-export && west build -s zmk/app -d $(BUILD_LEFT) -b nice_nano_v2 -- -DSHIELD='lily58_left nice_view_adapter nice_view' $(BUILD_FLAGS)"
+	$(DOCKER_RUN) bash -c "west zephyr-export && west build -s zmk/app -d $(BUILD_LEFT) -b nice_nano_v2 -- -DSHIELD='lily58_left nice_view_adapter nice_view' -DZMK_CONFIG=/app/config"
 	@echo "Left half built: $(LEFT_UF2)"
 
 right:
 	@echo "Building right half..."
-	$(DOCKER_RUN) bash -c "west zephyr-export && west build -s zmk/app -d $(BUILD_RIGHT) -b nice_nano_v2 -- -DSHIELD='lily58_right nice_view_adapter nice_view' $(BUILD_FLAGS)"
+	$(DOCKER_RUN) bash -c "west zephyr-export && west build -s zmk/app -d $(BUILD_RIGHT) -b nice_nano_v2 -- -DSHIELD='lily58_right nice_view_adapter nice_view' -DZMK_CONFIG=/app/config"
 	@echo "Right half built: $(RIGHT_UF2)"
 
 $(LEFT_UF2): .west/config
 	@echo "Building left half..."
-	$(DOCKER_RUN) bash -c "west zephyr-export && west build -s zmk/app -d $(BUILD_LEFT) -b nice_nano_v2 -- -DSHIELD='lily58_left nice_view_adapter nice_view' $(BUILD_FLAGS)"
+	$(DOCKER_RUN) bash -c "west zephyr-export && west build -s zmk/app -d $(BUILD_LEFT) -b nice_nano_v2 -- -DSHIELD='lily58_left nice_view_adapter nice_view' -DZMK_CONFIG=/app/config"
 	@echo "Left half built: $(LEFT_UF2)"
 
 $(RIGHT_UF2): .west/config
 	@echo "Building right half..."
-	$(DOCKER_RUN) bash -c "west zephyr-export && west build -s zmk/app -d $(BUILD_RIGHT) -b nice_nano_v2 -- -DSHIELD='lily58_right nice_view_adapter nice_view' $(BUILD_FLAGS)"
+	$(DOCKER_RUN) bash -c "west zephyr-export && west build -s zmk/app -d $(BUILD_RIGHT) -b nice_nano_v2 -- -DSHIELD='lily58_right nice_view_adapter nice_view' -DZMK_CONFIG=/app/config"
 	@echo "Right half built: $(RIGHT_UF2)"
 
 .west/config:
@@ -62,8 +58,7 @@ clean:
 
 clean-all:
 	@echo "Cleaning all generated files..."
-	# Do not delete modules/ — local turbo behavior lives there
-	rm -rf build build-left build-right .west zmk zephyr bootloader tools lily58_left.uf2 lily58_right.uf2
+	rm -rf build build-left build-right .west zmk zephyr modules lily58_left.uf2 lily58_right.uf2
 	@echo "All generated files cleaned"
 
 copy: all

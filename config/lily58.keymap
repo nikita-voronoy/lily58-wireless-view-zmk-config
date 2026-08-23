@@ -9,24 +9,6 @@
 #include <dt-bindings/zmk/keys.h>
 
 / {
-    behaviors {
-        /*
-         * Turbo F: while held, sends discrete F press/release forever.
-         * Stops the moment you release. Short tap = normal single F.
-         *
-         * Each delay is random in [min, max] ms (inclusive).
-         * Set min == max for a fixed delay.
-         */
-        turbo: turbo_key {
-            compatible = "zmk,behavior-turbo-key";
-            #binding-cells = <1>;
-            tap-ms-min = <15>;
-            tap-ms-max = <30>;
-            wait-ms-min = <35>;
-            wait-ms-max = <80>;
-        };
-    };
-
     keymap {
         compatible = "zmk,keymap";
 
@@ -35,7 +17,7 @@
             bindings = <
 &kp GRAVE   &kp N1  &kp N2  &kp N3     &kp N4    &kp N5                              &kp N6  &kp N7  &kp N8     &kp N9   &kp N0    &kp BACKSPACE
 &kp TAB     &kp Q   &kp W   &kp E      &kp R     &kp T                               &kp Y   &kp U   &kp I      &kp O    &kp P     &kp MINUS
-&kp ESCAPE  &kp A   &kp S   &kp D      &turbo F  &kp G                               &kp H   &kp J   &kp K      &kp L    &kp SEMI  &kp SQT
+&kp ESCAPE  &kp A   &kp S   &kp D      &kp F     &kp G                               &kp H   &kp J   &kp K      &kp L    &kp SEMI  &kp SQT
 &kp LSHFT   &kp Z   &kp X   &kp C      &kp V     &kp B         &none        &none    &kp N   &kp M   &kp COMMA  &kp DOT  &kp FSLH  &kp RSHFT
                             &kp LCTRL  &kp LGUI  &kp LEFT_ALT  &kp SPACE    &kp RET  &mo 1   &mo 2   &mo 3
             >;
